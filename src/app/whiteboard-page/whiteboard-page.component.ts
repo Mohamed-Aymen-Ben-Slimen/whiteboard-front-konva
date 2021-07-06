@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import Konva from 'konva';
 import { ShapeService } from '../shape.service';
 import { TextNodeService } from '../text-node.service';
+import {WhiteBoardService} from './services/white-board.service';
+import {AuthService} from '../auth/auth-service/auth.service';
 
 @Component({
   selector: 'app-whiteboard-page',
@@ -13,118 +15,157 @@ export class WhiteboardPageComponent implements OnInit {
   stage!: Konva.Stage;
   layer!: Konva.Layer;
   selectedButton: any = {
-    'circle': false,
-    'rectangle': false,
-    'line': false,
-    'undo': false,
-    'erase': false,
-    'text': false
-  }
-  erase: boolean = false;
+    circle: false,
+    rectangle: false,
+    line: false,
+    undo: false,
+    erase: false,
+    text: false
+  };
+  erase = false;
   transformers: Konva.Transformer[] = [];
 
   constructor(
     private shapeService: ShapeService,
-    private textNodeService: TextNodeService
+    private textNodeService: TextNodeService,
+    private whiteBoardService: WhiteBoardService,
+    private authService: AuthService
   ) { }
 
-  ngOnInit() {
-    let width = window.innerWidth * 0.9;
-    let height = window.innerHeight;
+  ngOnInit(): void {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
     this.stage = new Konva.Stage({
       container: 'container',
-      width: width,
-      height: height
+      width,
+      height
     });
     this.layer = new Konva.Layer();
     this.stage.add(this.layer);
     this.addLineListeners();
+
+    this.whiteBoardService.getDrawing()
+      .subscribe( (data: any) => {
+        this.clearBoard();
+        data.boardData.forEach( (drawing: string) => {
+          const newDrawing = JSON.parse( drawing );
+          console.log(newDrawing);
+          this.addShapeWithAttr(newDrawing.className.toLowerCase(), newDrawing.attrs);
+        } );
+      } );
+
   }
 
-  clearSelection() {
+  clearSelection(): void {
     Object.keys(this.selectedButton).forEach(key => {
       this.selectedButton[key] = false;
-    })
+    });
   }
 
-  setSelection(type: string) {
+  setSelection(type: string): void {
     this.selectedButton[type] = true;
   }
 
-  addShape(type: string) {
+  addShape(type: string, send = false): void {
     this.clearSelection();
     this.setSelection(type);
-    if (type == 'circle') {
-      this.addCircle();
+    if (type === 'circle') {
+      this.addCircle(null, true);
     }
-    else if (type == 'line') {
+    else if (type === 'line') {
       this.addLine();
     }
-    else if (type == 'rectangle') {
-      this.addRectangle();
+    else if (type === 'rectangle') {
+      this.addRectangle(null, true);
     }
-    else if (type == 'text') {
-      this.addText();
+    else if (type === 'text') {
+      this.addText(null, true);
     }
   }
 
-  addText() {
-    const text = this.textNodeService.textNode(this.stage, this.layer);
+  addShapeWithAttr(type: string, attr: any, send = false): void {
+    if (type === 'circle') {
+      this.addCircle(attr, send);
+    }
+    else if (type === 'line') {
+      const line = this.shapeService.lineWithAttr(null, '', attr);
+      this.shapes.push(line);
+      this.layer.add(line);
+      this.stage.add(this.layer);
+      this.addTransformerListeners();
+      if (send) { this.whiteBoardService.sendDrawing( '01', this.shapes ); }
+    }
+    else if (type === 'rect') {
+      this.addRectangle(attr, send);
+    }
+    else if (type === 'text') {
+      this.addText(attr, send);
+    }
+  }
+
+  addText(attr = null, send = false): void {
+    const text = !attr ? this.textNodeService.textNode(this.stage, this.layer) : this.textNodeService.textNodeWithAttr(this.stage, this.layer, attr);
     this.shapes.push(text.textNode);
     this.transformers.push(text.tr);
+    if (send) { this.whiteBoardService.sendDrawing( '01', this.shapes ); }
   }
 
-  addCircle() {
-    const circle = this.shapeService.circle();
+  addCircle(attr = null, send = false): void {
+    const circle = !attr ? this.shapeService.circle() : this.shapeService.circleWithAttr(attr);
     this.shapes.push(circle);
     this.layer.add(circle);
     this.stage.add(this.layer);
-    this.addTransformerListeners()
+    this.addTransformerListeners();
+    if (send) { this.whiteBoardService.sendDrawing( '01', this.shapes ); }
   }
 
-  addRectangle() {
-    const rectangle = this.shapeService.rectangle();
+  addRectangle(attr = null, send = false): void {
+    const rectangle = !attr ? this.shapeService.rectangle() : this.shapeService.rectangleWithAttr(attr);
     this.shapes.push(rectangle);
     this.layer.add(rectangle);
     this.stage.add(this.layer);
-    this.addTransformerListeners()
+    this.addTransformerListeners();
+    if (send) { this.whiteBoardService.sendDrawing( '01', this.shapes ); }
   }
 
-  addLine() {
-    this.selectedButton['line'] = true;
+  addLine(): void {
+    this.selectedButton.line = true;
   }
 
-  addLineListeners() {
+  addLineListeners(): void {
     const component = this;
     let lastLine: any;
     let isPaint: any;
-    this.stage.on('mousedown touchstart', function (e) {
-      if (!component.selectedButton['line'] && !component.erase) {
+    this.stage.on('mousedown touchstart', (e) => {
+      if (!component.selectedButton.line && !component.erase) {
         return;
       }
       isPaint = true;
-      let pos = component.stage.getPointerPosition();
+      const pos = component.stage.getPointerPosition();
       const mode = component.erase ? 'erase' : 'brush';
-      lastLine = component.shapeService.line(pos, mode)
-      component.shapes.push(lastLine);
+      lastLine = component.shapeService.line(pos, mode, null);
       component.layer.add(lastLine);
     });
-    this.stage.on('mouseup touchend', function () {
+    this.stage.on('mouseup touchend', () => {
+      if (isPaint) {
+        component.shapes.push(lastLine);
+        this.whiteBoardService.sendDrawing( '01', this.shapes );
+      }
       isPaint = false;
     });
     // and core function - drawing
-    this.stage.on('mousemove touchmove', function () {
+    this.stage.on('mousemove touchmove', () => {
       if (!isPaint) {
         return;
       }
       const position: any = component.stage.getPointerPosition();
-      var newPoints = lastLine.points().concat([position.x, position.y]);
+      const newPoints = lastLine.points().concat([position.x, position.y]);
       lastLine.points(newPoints);
       component.layer.batchDraw();
     });
   }
 
-  undo() {
+  undo(): void {
     const removedShape = this.shapes.pop();
     this.transformers.forEach(t => {
       t.detach();
@@ -133,16 +174,17 @@ export class WhiteboardPageComponent implements OnInit {
       removedShape.remove();
     }
     this.layer.draw();
+    this.whiteBoardService.sendDrawing( '01', this.shapes);
   }
 
-  addTransformerListeners() {
+  addTransformerListeners(): void {
     const component = this;
     const tr = new Konva.Transformer();
-    this.stage.on('click', function (e) {
-      if (!this.clickStartShape) {
+    this.stage.on('click', (e) => {
+      if (!this.stage.clickStartShape) {
         return;
       }
-      if (e.target._id == this.clickStartShape._id) {
+      if (e.target._id === this.stage.clickStartShape._id) {
         component.addDeleteListener(e.target);
         component.layer.add(tr);
         tr.attachTo(e.target);
@@ -156,15 +198,15 @@ export class WhiteboardPageComponent implements OnInit {
     });
   }
 
-  addDeleteListener(shape: any) {
+  addDeleteListener(shape: any): void {
     const component = this;
-    window.addEventListener('keydown', function (e) {
+    window.addEventListener('keydown', (e) => {
       if (e.key === 'Delete') {
         shape.remove();
         component.transformers.forEach(t => {
           t.detach();
         });
-        const selectedShape = component.shapes.find((s: any) => s._id == shape._id);
+        const selectedShape = component.shapes.find((s: any) => s._id === shape._id);
         selectedShape.remove();
         e.preventDefault();
       }
@@ -172,7 +214,13 @@ export class WhiteboardPageComponent implements OnInit {
     });
   }
 
-  clearBoard() {
-    location.reload();
+  clearBoard(): void {
+    this.transformers.forEach(t => {
+      t.detach();
+    });
+    this.shapes.forEach( (shape: Konva.Shape) => {
+      shape.remove();
+    } );
+    this.layer.draw();
   }
 }

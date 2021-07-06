@@ -3,8 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { WhiteboardPageComponent } from './whiteboard-page/whiteboard-page.component';
 
 const routes: Routes = [
-  { path: '', component: WhiteboardPageComponent },
-  { path: '**', component: WhiteboardPageComponent }
+  {
+    path: '',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+  },
+  { path: 'board', component: WhiteboardPageComponent }
 ];
 
 @NgModule({

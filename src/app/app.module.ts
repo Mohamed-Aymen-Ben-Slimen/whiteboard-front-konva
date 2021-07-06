@@ -8,6 +8,11 @@ import { WhiteboardPageComponent } from './whiteboard-page/whiteboard-page.compo
 import { ShapeService } from './shape.service';
 import { TextNodeService } from './text-node.service';
 import { MatButtonModule } from '@angular/material/button';
+import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
+import {environment} from '../environments/environment';
+import {AuthModule} from './auth/auth.module';
+
+const configSocket: SocketIoConfig = { url: environment.socketServerURL, options: {} };
 
 @NgModule({
   declarations: [
@@ -18,7 +23,9 @@ import { MatButtonModule } from '@angular/material/button';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatButtonModule
+    MatButtonModule,
+    AuthModule,
+    SocketIoModule.forRoot(configSocket)
   ],
   providers: [
     ShapeService,

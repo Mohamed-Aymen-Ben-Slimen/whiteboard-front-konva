@@ -1,0 +1,18 @@
+<div class="login-page">
+<div id="background"></div>
+<p class="title">Collaborative Whiteboard</p>
+
+<p class="subtitle">Share the whiteboard with your friends and increase your productivity</p>
+
+<p class="subtitle">Create a new room or join an existing one</p>
+
+<br>
+
+<form [formGroup]="formGroup" (ngSubmit)="submit()">
+  <input type="text" placeholder="Username" formControlName="username" name="username" />
+  <br>
+  <input type="text" placeholder="Roomname" formControlName="roomname" name="roomname" />
+  <br>
+  <button type="submit" class="btn">Create or Join Room</button>
+</form>
+</div>
