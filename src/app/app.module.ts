@@ -13,6 +13,9 @@ import {AuthModule} from './auth/auth.module';
 import {ChatModuleModule} from './chat-module/chat-module.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatButtonModule} from '@angular/material/button';
+import {MatOptionModule} from "@angular/material/core";
+import {MatSelectModule} from "@angular/material/select";
+import {MatIconModule} from "@angular/material/icon";
 
 const configSocket: SocketIoConfig = { url: environment.socketServerURL, options: {} };
 
@@ -21,16 +24,19 @@ const configSocket: SocketIoConfig = { url: environment.socketServerURL, options
     AppComponent,
     WhiteboardPageComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatButtonModule,
-        MatSlideToggleModule,
-        AuthModule,
-        SocketIoModule.forRoot(configSocket),
-        ChatModuleModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatSlideToggleModule,
+    MatSelectModule,
+    MatIconModule,
+    AuthModule,
+    SocketIoModule.forRoot(configSocket),
+    ChatModuleModule,
+    MatOptionModule
+  ],
   providers: [
     ShapeService,
     TextNodeService
