@@ -5,7 +5,7 @@
     <button mat-raised-button [color]='selectedButton["line"] ? "primary":""' (click)='setSelection("line"); addShape("line"); erase = false'>Pen</button>
     <button mat-raised-button [color]='selectedButton["text"] ? "primary":""' (click)='setSelection("text"); addShape("text")'>Text</button>
     <button mat-raised-button [color]='selectedButton["undo"] ? "primary":""' (click)='clearSelection(); setSelection("undo"); undo()'>Undo</button>
-    <button mat-raised-button [color]='selectedButton["erase"] ? "primary":""' (click)='clearSelection(); setSelection("erase"); erase = true'>Erase</button>
+    <button mat-raised-button [color]='selectedButton["erase"] ? "primary":""' (click)='clearSelection(); setSelection("erase"); erase = true; clearBoard(true)'>Clear</button>
   </div>
   <div class="flex-row">
       <div id="colorContainer" style="display: inline; margin: 0" >

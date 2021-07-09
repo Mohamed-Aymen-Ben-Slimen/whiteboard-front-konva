@@ -11,6 +11,7 @@ import Konva from 'konva';
 export class WhiteBoardService {
 
   drawingEventName = 'drawing';
+  clearEventName = 'clear';
 
   constructor(private socket: Socket) {}
 
@@ -41,7 +42,18 @@ export class WhiteBoardService {
     });
   }
 
-  getDrawing(): Observable<any> {
+  listenForDrawing(): Observable<any> {
     return this.socket.fromEvent(this.drawingEventName).pipe(map((data) => data));
+  }
+
+  sendClearBoard(room: string): void {
+    this.socket.emit(this.clearEventName, {
+      room,
+    });
+  }
+
+
+  listenForClear(): Observable<any> {
+    return this.socket.fromEvent(this.clearEventName);
   }
 }

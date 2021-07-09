@@ -40,7 +40,6 @@ export class WhiteboardPageComponent implements OnInit {
     this.user = new UserModel('', '');
     this.authService.getUserObservable().subscribe(
       (user: UserModel) => {
-        console.log(user);
         this.user = user;
       }
     );
@@ -58,7 +57,10 @@ export class WhiteboardPageComponent implements OnInit {
     this.stage.add(this.layer);
     this.addLineListeners();
 
-    this.whiteBoardService.getDrawing()
+    this.whiteBoardService.listenForClear()
+      .subscribe( () => { this.clearBoard(); } );
+
+    this.whiteBoardService.listenForDrawing()
       .subscribe( (data: any) => {
         if (data.type === Types.NEW) {
           const newDrawing = JSON.parse( data.boardData );
@@ -135,7 +137,6 @@ export class WhiteboardPageComponent implements OnInit {
   }
 
   addCircle(attr = null, shapeId: string = '0', send = false): void {
-    console.log(this.user.roomname);
     const circle = !attr ? this.shapeService.circle() : this.shapeService.circleWithAttr(attr, shapeId);
     circle.on('transformend', () => {
       this.whiteBoardService.sendUpdateDrawing( this.user.roomname, this.getShapeById(circle._id));
@@ -252,15 +253,17 @@ export class WhiteboardPageComponent implements OnInit {
     });
   }
 
-  clearBoard(): void {
+  clearBoard(send = false): void {
     this.transformers.forEach(t => {
       t.detach();
     });
     this.shapes.forEach( (shape: Konva.Shape) => {
-      console.log(shape);
       shape.destroy();
     } );
     this.shapes = [];
+    if (send) {
+      this.whiteBoardService.sendClearBoard(this.user.roomname);
+    }
     this.layer.draw();
   }
 
