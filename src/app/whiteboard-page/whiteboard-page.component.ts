@@ -114,7 +114,6 @@ export class WhiteboardPageComponent implements OnInit {
       this.shapes.push(line);
       this.layer.add(line);
       this.stage.add(this.layer);
-      this.addTransformerListeners();
       if (send) { this.whiteBoardService.sendNewDrawing( this.user.roomname, line ); }
     }
     else if (type === 'rect') {
