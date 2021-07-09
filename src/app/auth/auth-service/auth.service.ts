@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Socket} from 'ngx-socket-io';
 import UserModel from '../model/User.model';
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -8,18 +9,18 @@ import UserModel from '../model/User.model';
 export class AuthService {
 
   private eventComing = 'coming';
-  private user: UserModel;
+  private userSubject: BehaviorSubject<UserModel> = new BehaviorSubject<UserModel>(new UserModel('', ''));
+  private userObservable = this.userSubject.asObservable();
 
   constructor(private socket: Socket) {
-    this.user = new UserModel('', '');
   }
 
   login(username: string, roomname: string): void {
-    this.user = new UserModel(username, roomname);
+    this.userSubject.next( new UserModel(username, roomname) );
   }
 
-  getUser(): UserModel {
-    return this.user;
+  getUserObservable(): Observable<UserModel> {
+    return this.userObservable;
   }
 
   sendComing(data: any): void {

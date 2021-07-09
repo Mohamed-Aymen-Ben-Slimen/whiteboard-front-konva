@@ -1,10 +1,163 @@
-<div class="row">
+<div class="tools-bar flex-row">
+  <div>
     <button mat-raised-button [color]='selectedButton["circle"] ? "primary":""' (click)='setSelection("circle"); addShape("circle")'>Circle</button>
     <button mat-raised-button [color]='selectedButton["rectangle"] ? "primary":""' (click)='setSelection("rectangle"); addShape("rectangle")'>Rectangle</button>
     <button mat-raised-button [color]='selectedButton["line"] ? "primary":""' (click)='setSelection("line"); addShape("line"); erase = false'>Pen</button>
     <button mat-raised-button [color]='selectedButton["text"] ? "primary":""' (click)='setSelection("text"); addShape("text")'>Text</button>
     <button mat-raised-button [color]='selectedButton["undo"] ? "primary":""' (click)='clearSelection(); setSelection("undo"); undo()'>Undo</button>
     <button mat-raised-button [color]='selectedButton["erase"] ? "primary":""' (click)='clearSelection(); setSelection("erase"); erase = true'>Erase</button>
-    <button mat-raised-button [color]='selectedButton["clear"] ? "primary":""' (click)='clearBoard()'>Clear</button>
+  </div>
+  <div class="flex-row">
+      <div id="colorContainer" style="display: inline; margin: 0" >
+        <table style="display: inline; margin: 0">
+          <tr>
+
+            <td>
+              <div class="color" style="background-color:black;height: 20px;
+                        width: 20px;" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:white;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:red;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:blue;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:green;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:crimson;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:skyblue;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:deepskyblue;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:purple;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:slateblue;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:brown;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:saddlebrown;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:dodgerblue;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:olive;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:forestgreen;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:orange;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:gold;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+
+          </tr>
+
+          <tr>
+            <td>
+              <div class="color" style="background-color:gray;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:darkgray;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:whitesmoke;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:azure;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:pink;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:burlywood;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:coral;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:chocolate;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:firebrick;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:slateblue;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:darkorange;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:darksalmon;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:deeppink;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:violet;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:darkturquoise;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:turquoise;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+            <td>
+              <div class="color" style="background-color:cornflowerblue;height: 20px;
+                        width: 20px" (click)="changeColor($event.target)"></div>
+            </td>
+
+          </tr>
+        </table>
+      </div>
+  <div class="color" style="background-color:{{currentColor}};height: 40px;
+                        width: 40px; margin: 0 4px" (click)="changeColor($event.target)"></div>
+  </div>
 </div>
 <div id="container"></div>

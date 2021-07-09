@@ -20,15 +20,14 @@ export class ShapeService {
       draggable: true
     });
     circle._id = uuidv4();
-    console.log(circle);
     return circle;
   }
 
-  line(pos: any, mode: string = 'brush', attr: any): Konva.Line {
+  line(pos: any, mode: string = 'brush', attr: any, color: string = 'black', shapeId: string = '0'): Konva.Line {
     let line;
     if (!attr) {
        line = new Konva.Line({
-        stroke: 'red',
+        stroke: color,
         strokeWidth: 2,
         globalCompositeOperation:
           mode === 'brush' ? 'source-over' : 'destination-out',
@@ -38,7 +37,7 @@ export class ShapeService {
     } else {
       line = new Konva.Line(attr);
     }
-    line._id = uuidv4();
+    line._id = shapeId === '0' ? uuidv4() : shapeId;
     return line;
   }
 

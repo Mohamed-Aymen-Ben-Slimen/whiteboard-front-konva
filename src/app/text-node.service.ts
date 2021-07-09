@@ -177,8 +177,9 @@ export class TextNodeService {
   }
 
 
-  textNodeWithAttr(stage: Konva.Stage, layer: Konva.Layer, attr: any) {
+  textNodeWithAttr(stage: Konva.Stage, layer: Konva.Layer, attr: any, shapeId: string = '0') {
     const textNode = new Konva.Text(attr);
+    textNode._id = shapeId === '0' ? uuidv4() : shapeId;
     layer.add(textNode);
     const tr = new Konva.Transformer({
       node: textNode as any,

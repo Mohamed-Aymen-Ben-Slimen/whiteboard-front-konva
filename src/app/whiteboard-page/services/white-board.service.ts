@@ -31,6 +31,16 @@ export class WhiteBoardService {
       shapeId: drawing._id,
     });
   }
+
+  sendDeleteDrawing(room: string, drawing: any): void {
+    this.socket.emit(this.drawingEventName, {
+      type: Types.DELETE,
+      room,
+      boardData: drawing,
+      shapeId: drawing._id,
+    });
+  }
+
   getDrawing(): Observable<any> {
     return this.socket.fromEvent(this.drawingEventName).pipe(map((data) => data));
   }

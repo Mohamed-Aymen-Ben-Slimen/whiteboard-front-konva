@@ -1,4 +1,5 @@
 export enum Types {
   NEW = 'NEW',
-  UPDATE = 'UPDATE'
+  UPDATE = 'UPDATE',
+  DELETE = 'DELETE',
 }

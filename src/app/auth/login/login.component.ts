@@ -25,6 +25,8 @@ export class LoginComponent implements OnInit {
   }
 
   submit(): void {
+    const formValue = this.formGroup.value;
+    this.authService.login(formValue.username, formValue.roomname);
     this.router.navigateByUrl('/board')
       .then(
         () => {
