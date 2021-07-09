@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import {Socket} from 'ngx-socket-io';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {Types} from '../../Types.enum';
+// @ts-ignore
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +15,12 @@ export class WhiteBoardService {
 
   constructor(private socket: Socket) {}
 
-  sendDrawing(room: string, drawings: any[]): void {
+  sendNewDrawing(room: string, drawings: any): void {
     this.socket.emit(this.drawingEventName, {
+      type: Types.NEW,
       room,
       boardData: drawings,
+      shapeId: uuidv4()
     });
   }
   getDrawing(): Observable<any> {

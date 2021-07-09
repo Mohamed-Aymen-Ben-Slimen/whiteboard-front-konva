@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import Konva from 'konva';
+// @ts-ignore
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,7 @@ export class ShapeService {
   constructor() { }
 
   circle(): Konva.Circle {
-    return new Konva.Circle({
+    const circle =  new Konva.Circle({
       x: 100,
       y: 100,
       radius: 70,
@@ -17,11 +19,15 @@ export class ShapeService {
       strokeWidth: 2,
       draggable: true
     });
+    circle._id = uuidv4();
+    console.log(circle);
+    return circle;
   }
 
   line(pos: any, mode: string = 'brush', attr: any): Konva.Line {
+    let line;
     if (!attr) {
-      return new Konva.Line({
+       line = new Konva.Line({
         stroke: 'red',
         strokeWidth: 2,
         globalCompositeOperation:
@@ -29,12 +35,15 @@ export class ShapeService {
         points: [pos.x, pos.y],
         draggable: false
       });
+    } else {
+      line = new Konva.Line(attr);
     }
-    return new Konva.Line(attr);
+    line._id = uuidv4();
+    return line;
   }
 
   rectangle(): Konva.Rect {
-    return new Konva.Rect({
+    const rect = new Konva.Rect({
       x: 20,
       y: 20,
       width: 100,
@@ -43,6 +52,8 @@ export class ShapeService {
       strokeWidth: 2,
       draggable: true
     });
+    rect._id = uuidv4();
+    return rect;
   }
 
   circleWithAttr(attr: any): Konva.Circle {

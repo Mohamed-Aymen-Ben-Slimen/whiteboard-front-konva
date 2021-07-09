@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import Konva from 'konva';
+// @ts-ignore
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,7 @@ export class TextNodeService {
       draggable: true,
       width: 200
     });
+    textNode._id = uuidv4();
     layer.add(textNode);
     const tr = new Konva.Transformer({
       node: textNode as any,
@@ -31,9 +34,10 @@ export class TextNodeService {
       if (!this.clickStartShape) {
         return;
       }
-      if (e.target._id == this.clickStartShape._id) {
+      if (e.target._id === this.clickStartShape._id) {
         layer.add(tr);
-        tr.attachTo(e.target);
+        // tr.attachTo(e.target);
+        tr.nodes([e.target]);
         layer.draw();
       }
       else {
@@ -189,9 +193,10 @@ export class TextNodeService {
       if (!this.clickStartShape) {
         return;
       }
-      if (e.target._id == this.clickStartShape._id) {
+      if (e.target._id === this.clickStartShape._id) {
         layer.add(tr);
-        tr.attachTo(e.target);
+        // tr.attachTo(e.target);
+        tr.nodes([e.target]);
         layer.draw();
       }
       else {
@@ -199,7 +204,7 @@ export class TextNodeService {
         layer.draw();
       }
     });
-    textNode.on('transform', function() {
+    textNode.on('transform', () => {
       // reset scale, so only with is changing by transformer
       textNode.setAttrs({
         width: textNode.width() * textNode.scaleX(),
