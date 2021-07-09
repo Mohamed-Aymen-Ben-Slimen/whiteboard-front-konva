@@ -159,5 +159,8 @@
   <div class="color" style="background-color:{{currentColor}};height: 40px;
                         width: 40px; margin: 0 4px" (click)="changeColor($event.target)"></div>
   </div>
+
+  <button mat-raised-button  (click)='handleDarkMode()'>{{ darkModeActive ? 'Light Mode' : 'Dark Mode' }}</button>
+
 </div>
-<div id="container"></div>
+<div id="container" [ngClass]="{'dark-mode': darkModeActive}"></div>

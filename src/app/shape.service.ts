@@ -10,12 +10,12 @@ export class ShapeService {
 
   constructor() { }
 
-  circle(): Konva.Circle {
+  circle(color: string = 'black'): Konva.Circle {
     const circle =  new Konva.Circle({
       x: 100,
       y: 100,
       radius: 70,
-      stroke: 'black',
+      stroke: color,
       strokeWidth: 2,
       draggable: true
     });
@@ -41,13 +41,13 @@ export class ShapeService {
     return line;
   }
 
-  rectangle(): Konva.Rect {
+  rectangle(color: string = 'black'): Konva.Rect {
     const rect = new Konva.Rect({
       x: 20,
       y: 20,
       width: 100,
       height: 50,
-      stroke: 'black',
+      stroke: color,
       strokeWidth: 2,
       draggable: true
     });

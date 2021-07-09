@@ -27,6 +27,8 @@ export class WhiteboardPageComponent implements OnInit {
   erase = false;
   transformers: Konva.Transformer[] = [];
 
+  darkModeActive = false;
+
   currentColor = 'black';
 
   user: UserModel;
@@ -137,7 +139,7 @@ export class WhiteboardPageComponent implements OnInit {
   }
 
   addCircle(attr = null, shapeId: string = '0', send = false): void {
-    const circle = !attr ? this.shapeService.circle() : this.shapeService.circleWithAttr(attr, shapeId);
+    const circle = !attr ? this.shapeService.circle(this.currentColor) : this.shapeService.circleWithAttr(attr, shapeId);
     circle.on('transformend', () => {
       this.whiteBoardService.sendUpdateDrawing( this.user.roomname, this.getShapeById(circle._id));
     });
@@ -152,7 +154,7 @@ export class WhiteboardPageComponent implements OnInit {
   }
 
   addRectangle(attr = null, shapeId: string = '0', send = false): void {
-    const rectangle = !attr ? this.shapeService.rectangle() : this.shapeService.rectangleWithAttr(attr, shapeId);
+    const rectangle = !attr ? this.shapeService.rectangle(this.currentColor) : this.shapeService.rectangleWithAttr(attr, shapeId);
     rectangle.on('transformend', () => {
       this.whiteBoardService.sendUpdateDrawing( this.user.roomname, this.getShapeById(rectangle._id));
     });
@@ -280,5 +282,10 @@ export class WhiteboardPageComponent implements OnInit {
 
   changeColor(target: any): void {
     this.currentColor = target.style.backgroundColor;
+  }
+
+  handleDarkMode(): void {
+    this.darkModeActive = !this.darkModeActive;
+    this.currentColor = 'white';
   }
 }
