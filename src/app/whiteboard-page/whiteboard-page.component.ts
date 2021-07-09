@@ -4,7 +4,7 @@ import { ShapeService } from '../shape.service';
 import { TextNodeService } from '../text-node.service';
 import {WhiteBoardService} from './services/white-board.service';
 import {AuthService} from '../auth/auth-service/auth.service';
-import {Types} from "../Types.enum";
+import {Types} from '../Types.enum';
 
 @Component({
   selector: 'app-whiteboard-page',
@@ -47,12 +47,16 @@ export class WhiteboardPageComponent implements OnInit {
 
     this.whiteBoardService.getDrawing()
       .subscribe( (data: any) => {
-        if (data.shapeId === Types.NEW) {
+        if (data.type === Types.NEW) {
           const newDrawing = JSON.parse( data.boardData );
-          this.addShapeWithAttr(newDrawing.className.toLowerCase(), newDrawing.attrs);
+          this.addShapeWithAttr(newDrawing.className.toLowerCase(), newDrawing.attrs, data.shapeId);
+        } else if (data.type === Types.UPDATE) {
+          const updatedDrawing = JSON.parse(data.boardData);
+          this.removeShapeById(data.shapeId);
+          this.addShapeWithAttr(updatedDrawing.className.toLowerCase(), updatedDrawing.attrs, data.shapeId);
+          this.layer.batchDraw();
         }
       });
-
   }
 
   clearSelection(): void {
@@ -69,22 +73,22 @@ export class WhiteboardPageComponent implements OnInit {
     this.clearSelection();
     this.setSelection(type);
     if (type === 'circle') {
-      this.addCircle(null, true);
+      this.addCircle(null, '0', true);
     }
     else if (type === 'line') {
       this.addLine();
     }
     else if (type === 'rectangle') {
-      this.addRectangle(null, true);
+      this.addRectangle(null, '0', true);
     }
     else if (type === 'text') {
       this.addText(null, true);
     }
   }
 
-  addShapeWithAttr(type: string, attr: any, send = false): void {
+  addShapeWithAttr(type: string, attr: any, shapeId: string, send = false): void {
     if (type === 'circle') {
-      this.addCircle(attr, send);
+      this.addCircle(attr, shapeId, send);
     }
     else if (type === 'line') {
       const line = this.shapeService.lineWithAttr(null, '', attr);
@@ -95,7 +99,7 @@ export class WhiteboardPageComponent implements OnInit {
       if (send) { this.whiteBoardService.sendNewDrawing( '01', line ); }
     }
     else if (type === 'rect') {
-      this.addRectangle(attr, send);
+      this.addRectangle(attr, shapeId, send);
     }
     else if (type === 'text') {
       this.addText(attr, send);
@@ -109,8 +113,14 @@ export class WhiteboardPageComponent implements OnInit {
     if (send) { this.whiteBoardService.sendNewDrawing( '01', text ); }
   }
 
-  addCircle(attr = null, send = false): void {
-    const circle = !attr ? this.shapeService.circle() : this.shapeService.circleWithAttr(attr);
+  addCircle(attr = null, shapeId: string = '0', send = false): void {
+    const circle = !attr ? this.shapeService.circle() : this.shapeService.circleWithAttr(attr, shapeId);
+    circle.on('transformend', () => {
+      this.whiteBoardService.sendUpdateDrawing( '01', this.getShapeById(circle._id));
+    });
+    circle.on('dragend', () => {
+      this.whiteBoardService.sendUpdateDrawing( '01', this.getShapeById(circle._id));
+    });
     this.shapes.push(circle);
     this.layer.add(circle);
     this.stage.add(this.layer);
@@ -118,8 +128,14 @@ export class WhiteboardPageComponent implements OnInit {
     if (send) { this.whiteBoardService.sendNewDrawing( '01', circle ); }
   }
 
-  addRectangle(attr = null, send = false): void {
-    const rectangle = !attr ? this.shapeService.rectangle() : this.shapeService.rectangleWithAttr(attr);
+  addRectangle(attr = null, shapeId: string = '0', send = false): void {
+    const rectangle = !attr ? this.shapeService.rectangle() : this.shapeService.rectangleWithAttr(attr, shapeId);
+    rectangle.on('transformend', () => {
+      this.whiteBoardService.sendUpdateDrawing( '01', this.getShapeById(rectangle._id));
+    });
+    rectangle.on('dragend', () => {
+      this.whiteBoardService.sendUpdateDrawing( '01', this.getShapeById(rectangle._id));
+    });
     this.shapes.push(rectangle);
     this.layer.add(rectangle);
     this.stage.add(this.layer);
@@ -220,8 +236,20 @@ export class WhiteboardPageComponent implements OnInit {
     });
     this.shapes.forEach( (shape: Konva.Shape) => {
       console.log(shape);
-      shape.remove();
+      shape.destroy();
     } );
+    this.shapes = [];
+    console.log(this.layer);
     this.layer.draw();
+  }
+
+  removeShapeById(id: any): void {
+    this.getShapeById(id).destroy();
+    this.shapes = this.shapes.filter( (shape: Konva.Shape) => shape._id !== id);
+    this.layer.draw();
+  }
+
+  getShapeById(id: any): Konva.Shape {
+    return this.shapes.find((s: any) => s._id === id);
   }
 }

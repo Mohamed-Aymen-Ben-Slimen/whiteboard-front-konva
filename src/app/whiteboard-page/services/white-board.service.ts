@@ -3,8 +3,7 @@ import {Socket} from 'ngx-socket-io';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Types} from '../../Types.enum';
-// @ts-ignore
-import { v4 as uuidv4 } from 'uuid';
+import Konva from 'konva';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +14,21 @@ export class WhiteBoardService {
 
   constructor(private socket: Socket) {}
 
-  sendNewDrawing(room: string, drawings: any): void {
+  sendNewDrawing(room: string, drawing: any): void {
     this.socket.emit(this.drawingEventName, {
       type: Types.NEW,
       room,
-      boardData: drawings,
-      shapeId: uuidv4()
+      boardData: drawing,
+      shapeId: drawing._id,
+    });
+  }
+
+  sendUpdateDrawing(room: string, drawing: any): void {
+    this.socket.emit(this.drawingEventName, {
+      type: Types.UPDATE,
+      room,
+      boardData: drawing,
+      shapeId: drawing._id,
     });
   }
   getDrawing(): Observable<any> {

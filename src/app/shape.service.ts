@@ -56,15 +56,21 @@ export class ShapeService {
     return rect;
   }
 
-  circleWithAttr(attr: any): Konva.Circle {
-    return new Konva.Circle(attr);
+  circleWithAttr(attr: any, shapeId: string = '0'): Konva.Circle {
+    const circle =  new Konva.Circle(attr);
+    circle._id = shapeId === '0' ? uuidv4() : shapeId;
+    return circle;
   }
 
-  lineWithAttr(pos: any, mode: string = 'brush', attr: any): Konva.Line {
-    return new Konva.Line(attr);
+  lineWithAttr(pos: any, mode: string = 'brush', attr: any, shapeId: string = '0'): Konva.Line {
+    const line =  new Konva.Line(attr);
+    line._id = shapeId === '0' ? uuidv4() : shapeId;
+    return line;
   }
 
-  rectangleWithAttr(attr: any): Konva.Rect {
-    return new Konva.Rect(attr);
+  rectangleWithAttr(attr: any, shapeId: string = '0'): Konva.Rect {
+    const rect = new Konva.Rect(attr);
+    rect._id = shapeId === '0' ? uuidv4() : shapeId;
+    return rect;
   }
 }
