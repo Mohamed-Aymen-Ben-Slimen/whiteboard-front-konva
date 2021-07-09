@@ -160,7 +160,8 @@
                         width: 40px; margin: 0 4px" (click)="changeColor($event.target)"></div>
   </div>
 
-  <button mat-raised-button  (click)='handleDarkMode()'>{{ darkModeActive ? 'Light Mode' : 'Dark Mode' }}</button>
+  <mat-slide-toggle (change)='handleDarkMode()'>Dark Mode</mat-slide-toggle>
 
 </div>
 <div id="container" [ngClass]="{'dark-mode': darkModeActive}"></div>
+<app-chat></app-chat>

@@ -1,0 +1,18 @@
+<div class="chatWidget">
+  <div class="chatHead">
+    <label id="chatMembers"> Chats : {{data?.members?.length}} </label>
+    <button id="chatMinMax" class="chatBtn" title="Maximize/Minimize"><i class="fa fa-caret-down"></i></button>
+    <button  class="chatBtn" title="Settings"><i class="fa fa-gear"></i></button>
+  </div>
+  <div class="chatBody"></div>
+
+  <div *ngIf="data?.data">
+  <div *ngFor="let chat of data?.data" class="chatMsgContainer">
+    {{chat?.from}}: {{chat?.msg}}
+  </div>
+  </div>
+
+  <input type="text" class="msgBox" id="txtChatMsg" (change)="handleWrittenMsg($event.target)" />
+  <button id="btnSend" title="Send" class="btn"><i class="fa fa-send"></i></button>
+
+</div>
