@@ -10,25 +10,25 @@ export class ShapeService {
 
   constructor() { }
 
-  circle(color: string = 'black'): Konva.Circle {
+  circle(color: string = 'black', strokeWidth: number = 2): Konva.Circle {
     const circle =  new Konva.Circle({
       x: 100,
       y: 100,
       radius: 70,
       stroke: color,
-      strokeWidth: 2,
+      strokeWidth,
       draggable: true
     });
     circle._id = uuidv4();
     return circle;
   }
 
-  line(pos: any, mode: string = 'brush', attr: any, color: string = 'black', shapeId: string = '0'): Konva.Line {
+  line(pos: any, mode: string = 'brush', attr: any, color: string = 'black', strokeWidth: number = 2, shapeId: string = '0'): Konva.Line {
     let line;
     if (!attr) {
        line = new Konva.Line({
         stroke: color,
-        strokeWidth: 2,
+        strokeWidth,
         globalCompositeOperation:
           mode === 'brush' ? 'source-over' : 'destination-out',
         points: [pos.x, pos.y],
@@ -41,14 +41,14 @@ export class ShapeService {
     return line;
   }
 
-  rectangle(color: string = 'black'): Konva.Rect {
+  rectangle(color: string = 'black', strokeWidth: number = 2): Konva.Rect {
     const rect = new Konva.Rect({
       x: 20,
       y: 20,
       width: 100,
       height: 50,
       stroke: color,
-      strokeWidth: 2,
+      strokeWidth,
       draggable: true
     });
     rect._id = uuidv4();

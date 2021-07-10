@@ -1,15 +1,15 @@
 <div class="tools-bar flex-row">
-  <div>
+  <div class="flex-row">
     <button mat-raised-button [color]='selectedButton["circle"] ? "primary":""' (click)='setSelection("circle"); addShape("circle")'>Circle</button>
     <button mat-raised-button [color]='selectedButton["rectangle"] ? "primary":""' (click)='setSelection("rectangle"); addShape("rectangle")'>Rectangle</button>
     <button mat-raised-button [color]='selectedButton["line"] ? "primary":""' (click)='setSelection("line"); addShape("line"); erase = false'>Pen</button>
     <button mat-raised-button [color]='selectedButton["text"] ? "primary":""' (click)='setSelection("text"); addShape("text")'>Text</button>
     <button mat-raised-button [color]='selectedButton["undo"] ? "primary":""' (click)='clearSelection(); setSelection("undo"); undo()'>Undo</button>
     <button mat-raised-button [color]='selectedButton["erase"] ? "primary":""' (click)='clearSelection(); setSelection("erase"); erase = true; clearBoard(true)'>Clear</button>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline" style="width: 66px; padding: 0; margin: 0; margin-bottom: -1.25em">
       <mat-label>Size</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let strokeWidth of [1, 2, 3, 4, 5]" [value]="strokeWidth">
+      <mat-select [(value)]="currentStrokeWidth">
+        <mat-option *ngFor="let strokeWidth of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [value]="strokeWidth">
           {{strokeWidth}}
         </mat-option>
       </mat-select>

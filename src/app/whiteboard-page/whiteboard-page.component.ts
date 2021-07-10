@@ -6,6 +6,7 @@ import {WhiteBoardService} from './services/white-board.service';
 import {AuthService} from '../auth/auth-service/auth.service';
 import {Types} from '../Types.enum';
 import UserModel from '../auth/model/User.model';
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-whiteboard-page',
@@ -30,6 +31,7 @@ export class WhiteboardPageComponent implements OnInit {
   darkModeActive = false;
 
   currentColor = 'black';
+  currentStrokeWidth = 2;
 
   user: UserModel;
 
@@ -37,7 +39,8 @@ export class WhiteboardPageComponent implements OnInit {
     private shapeService: ShapeService,
     private textNodeService: TextNodeService,
     private whiteBoardService: WhiteBoardService,
-    private authService: AuthService
+    private authService: AuthService,
+    private formBuilder: FormBuilder
   ) {
     this.user = new UserModel('', '');
     this.authService.getUserObservable().subscribe(
@@ -138,7 +141,7 @@ export class WhiteboardPageComponent implements OnInit {
   }
 
   addCircle(attr = null, shapeId: string = '0', send = false): void {
-    const circle = !attr ? this.shapeService.circle(this.currentColor) : this.shapeService.circleWithAttr(attr, shapeId);
+    const circle = !attr ? this.shapeService.circle(this.currentColor, this.currentStrokeWidth) : this.shapeService.circleWithAttr(attr, shapeId);
     circle.on('transformend', () => {
       this.whiteBoardService.sendUpdateDrawing( this.user.roomname, this.getShapeById(circle._id));
     });
@@ -153,7 +156,7 @@ export class WhiteboardPageComponent implements OnInit {
   }
 
   addRectangle(attr = null, shapeId: string = '0', send = false): void {
-    const rectangle = !attr ? this.shapeService.rectangle(this.currentColor) : this.shapeService.rectangleWithAttr(attr, shapeId);
+    const rectangle = !attr ? this.shapeService.rectangle(this.currentColor, this.currentStrokeWidth) : this.shapeService.rectangleWithAttr(attr, shapeId);
     rectangle.on('transformend', () => {
       this.whiteBoardService.sendUpdateDrawing( this.user.roomname, this.getShapeById(rectangle._id));
     });
@@ -182,7 +185,7 @@ export class WhiteboardPageComponent implements OnInit {
       isPaint = true;
       const pos = component.stage.getPointerPosition();
       const mode = component.erase ? 'erase' : 'brush';
-      lastLine = component.shapeService.line(pos, mode, null, this.currentColor);
+      lastLine = component.shapeService.line(pos, mode, null, this.currentColor, this.currentStrokeWidth);
       component.layer.add(lastLine);
     });
     this.stage.on('mouseup touchend', () => {
@@ -281,6 +284,12 @@ export class WhiteboardPageComponent implements OnInit {
 
   changeColor(target: any): void {
     this.currentColor = target.style.backgroundColor;
+  }
+
+  changeStrokeWidth(target: any): void {
+    this.currentStrokeWidth = target.value;
+    console.log(this.currentStrokeWidth);
+    console.log(target);
   }
 
   handleDarkMode(): void {
