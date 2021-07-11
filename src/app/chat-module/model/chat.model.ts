@@ -1,11 +1,5 @@
-interface Chat{
+export default interface ChatModel {
+  roomname: string;
   msg: string;
   from: string;
 }
-
-export default interface ChatModel extends Chat{
-  data: [Chat];
-  members: [string];
-  status: string;
-}
-

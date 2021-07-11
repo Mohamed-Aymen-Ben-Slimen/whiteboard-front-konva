@@ -1,18 +1,24 @@
-<div class="chatWidget">
+<div class="chatWidget" [ngClass]="{minimized: !maximized}">
   <div class="chatHead">
-    <label id="chatMembers"> Chats : {{data?.members?.length}} </label>
-    <button id="chatMinMax" class="chatBtn" title="Maximize/Minimize"><i class="fa fa-caret-down"></i></button>
-    <button  class="chatBtn" title="Settings"><i class="fa fa-gear"></i></button>
+    <label id="chatMembers"> Chats : {{connectedUsers?.length}} </label>
+    <div id="chatMinMax" class="chatBtn" (click)="handleMaximized()">
+      <span *ngIf="maximized" class="material-icons">arrow_drop_down</span>
+      <span *ngIf="!maximized" class="material-icons">arrow_drop_up</span>
+    </div>
   </div>
-  <div class="chatBody"></div>
+  <div class="chatBody">
+    <div *ngIf="messages">
+      <div *ngFor="let chat of messages" class="chatMsgContainer">
+        {{chat?.from}}: {{chat?.msg}}
+      </div>
+    </div>
+  </div>
 
-  <div *ngIf="data?.data">
-  <div *ngFor="let chat of data?.data" class="chatMsgContainer">
-    {{chat?.from}}: {{chat?.msg}}
+  <div class="flex-row">
+    <input #input type="text" class="msgBox" id="txtChatMsg"/>
+    <button id="btnSend" class="btn" (click)="sendMsg(input.value)">
+      <span  class="material-icons" >send</span>
+    </button>
   </div>
-  </div>
-
-  <input type="text" class="msgBox" id="txtChatMsg" (change)="handleWrittenMsg($event.target)" />
-  <button id="btnSend" title="Send" class="btn"><i class="fa fa-send"></i></button>
 
 </div>

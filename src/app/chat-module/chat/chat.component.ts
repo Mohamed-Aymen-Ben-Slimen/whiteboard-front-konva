@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ChatService} from '../chat-service/chat.service';
 import ChatModel from '../model/chat.model';
 import {Subscription} from 'rxjs';
+import {AuthService} from "../../auth/auth-service/auth.service";
 
 @Component({
   selector: 'app-chat',
@@ -10,12 +11,18 @@ import {Subscription} from 'rxjs';
 })
 export class ChatComponent implements OnInit, OnDestroy {
 
-  constructor(private chatService: ChatService) { }
+  maximized = false;
 
-  data: ChatModel | undefined;
-  writtenMsg: string | undefined;
+  connectedUsers = [];
+  // @ts-ignore
+  messages: [ChatModel] = [];
+
+  user: any;
 
   subscriptions: Array<Subscription> = new Array<Subscription>();
+
+  constructor(private chatService: ChatService,
+              private authService: AuthService) { }
 
   ngOnDestroy(): void {
         this.subscriptions.forEach(
@@ -27,22 +34,31 @@ export class ChatComponent implements OnInit, OnDestroy {
     const chatSub = this.chatService.getMessage()
       .subscribe(
         (data: ChatModel) => {
-          console.log(data);
-          this.data = data;
+          this.messages.unshift(data);
         },
         (error) => {
           console.log(error);
         }
       );
     this.subscriptions.push(chatSub);
+    const userSub = this.authService.getUserObservable()
+      .subscribe( (user) => {
+        this.user = user;
+      } );
+    this.subscriptions.push(userSub);
   }
 
-  handleWrittenMsg(target: EventTarget | null): void {
-    this.writtenMsg = (target as HTMLInputElement).value;
+  sendMsg(msg: string): void {
+    this.messages.unshift({
+        msg,
+        from: this.user.username,
+        roomname: this.user.roomname
+      });
+    this.chatService.sendMessage(msg);
   }
 
-  sendMsg(): void {
-    this.chatService.sendMessage(this.writtenMsg);
+  handleMaximized(): void {
+    this.maximized = !this.maximized;
   }
 
 }

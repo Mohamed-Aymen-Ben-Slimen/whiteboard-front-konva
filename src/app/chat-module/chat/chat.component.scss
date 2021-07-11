@@ -13,12 +13,15 @@
   box-shadow: 1px 2px 3px rgba(0, 0, 0, .5);
 }
 
+.chatWidget.minimized {
+  height: 48px;
+}
+
 .chatHead {
   color: white;
   text-align: left;
   background-color: saddlebrown;
-  padding: 5px;
-  height: 20px;
+  padding: 3% 10px;
 }
 
 .chatBtn {
@@ -26,13 +29,9 @@
   cursor: pointer;
   border-style: none;
   border-radius: 5px;
-  padding: 2px;
   outline: none;
-  background-color: saddlebrown;
-  color: black;
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
+  background-color: transparent;
+  color: white;
 }
 
 .chatBtn:hover {
@@ -41,21 +40,21 @@
 
 .chatBody {
   height: 265px;
+  overflow: scroll;
   text-align: left;
   padding: 5px;
-  overflow: auto;
   border-bottom-style: solid;
   border-bottom-color: saddlebrown;
   border-bottom-width: 2px;
-  margin-bottom: 2px;
+  margin: 0 0 0 2px;
 }
 
 .msgBox {
   float: left;
-  height: 40px;
+  height: 34px;
   resize: none;
   outline: none;
-  width: 270px;
+  width: 80%;
   border-style: none;
   font-family: cursive;
   font-size: 15px;
@@ -66,13 +65,13 @@
 .btn {
   outline: none;
   border-style: none;
+  z-index: 5;
 }
 
 #btnSend {
-  background-color: white;
-  height: 40px;
-  font-size: 15px;
+  background-color: transparent;
   cursor: pointer;
+  color: saddlebrown;
 }
 
 #btnSend:hover {
