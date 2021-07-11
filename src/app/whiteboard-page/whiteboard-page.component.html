@@ -1,5 +1,5 @@
-<div class="tools-bar flex-row">
-  <div class="flex-row">
+<div class="tools-bar flex-row row">
+  <div class="flex-row col-lg-4 col-md-12 col-sm-12">
     <button mat-raised-button [color]='selectedButton["circle"] ? "primary":""' (click)='setSelection("circle"); addShape("circle")'>Circle</button>
     <button mat-raised-button [color]='selectedButton["rectangle"] ? "primary":""' (click)='setSelection("rectangle"); addShape("rectangle")'>Rectangle</button>
     <button mat-raised-button [color]='selectedButton["line"] ? "primary":""' (click)='setSelection("line"); addShape("line"); erase = false'>Pen</button>
@@ -15,8 +15,9 @@
       </mat-select>
     </mat-form-field>
   </div>
+  <div class="col-lg-6 col-md-12 col-sm-12">
   <div class="flex-row">
-      <div id="colorContainer" style="display: inline; margin: 0" >
+      <div id="colorContainer" class="flex-row"  >
         <table style="display: inline; margin: 0">
           <tr>
 
@@ -160,23 +161,24 @@
               <div class="color" style="background-color:cornflowerblue;height: 20px;
                         width: 20px" (click)="changeColor($event.target)"></div>
             </td>
-
           </tr>
         </table>
-      </div>
-  <div class="color" style="background-color:{{currentColor}};height: 40px;
+        <div class="color" style="background-color:{{currentColor}};height: 40px;
                         width: 40px; margin: 0 4px" (click)="changeColor($event.target)"></div>
+      </div>
+  </div>
   </div>
 
-  <div class="flex-row">
+  <div class="flex-row col-lg-2 col-md-12 col-sm-12">
     <mat-slide-toggle (change)='handleDarkMode()'>Dark Mode</mat-slide-toggle>
-  </div>
-  <span *ngIf="!darkModeActive" class="material-icons">
+    <span *ngIf="!darkModeActive" class="material-icons">
       light_mode
     </span>
-  <span *ngIf="darkModeActive" class="material-icons">
+    <span *ngIf="darkModeActive" class="material-icons">
       dark_mode
     </span>
+  </div>
+
 
 </div>
 <div id="container" [ngClass]="{'dark-mode': darkModeActive}"></div>
