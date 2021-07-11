@@ -1,6 +1,6 @@
 <div class="chatWidget" [ngClass]="{minimized: !maximized}">
   <div class="chatHead">
-    <label id="chatMembers"> Chats : {{connectedUsers?.length}} </label>
+    <label id="chatMembers"> Chats </label>
     <div id="chatMinMax" class="chatBtn" (click)="handleMaximized()">
       <span *ngIf="maximized" class="material-icons">arrow_drop_down</span>
       <span *ngIf="!maximized" class="material-icons">arrow_drop_up</span>
