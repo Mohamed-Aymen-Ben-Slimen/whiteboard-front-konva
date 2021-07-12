@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ChatService} from '../chat-service/chat.service';
 import ChatModel from '../model/chat.model';
 import {Subscription} from 'rxjs';
-import {AuthService} from "../../auth/auth-service/auth.service";
+import {AuthService} from '../../auth/auth-service/auth.service';
 
 @Component({
   selector: 'app-chat',
@@ -49,6 +49,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   sendMsg(msg: string): void {
+    if (msg.length === 0) { return; }
     this.messages.unshift({
         msg,
         from: this.user.username,

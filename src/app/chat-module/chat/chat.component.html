@@ -1,6 +1,6 @@
 <div class="chatWidget" [ngClass]="{minimized: !maximized}">
   <div class="chatHead">
-    <label id="chatMembers"> Chats </label>
+    <label id="chatMembers"> Chat </label>
     <div id="chatMinMax" class="chatBtn" (click)="handleMaximized()">
       <span *ngIf="maximized" class="material-icons">arrow_drop_down</span>
       <span *ngIf="!maximized" class="material-icons">arrow_drop_up</span>
@@ -16,7 +16,7 @@
 
   <div class="flex-row">
     <input #input type="text" class="msgBox" id="txtChatMsg"/>
-    <button id="btnSend" class="btn" (click)="sendMsg(input.value)">
+    <button id="btnSend" class="btn" (click)="sendMsg(input.value); input.value = '';">
       <span  class="material-icons" >send</span>
     </button>
   </div>
