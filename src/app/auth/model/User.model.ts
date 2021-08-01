@@ -1,25 +1,21 @@
 export default class UserModel {
-  private _username: string;
-  private _roomname: string;
+  token = '';
+  username = '';
+  roomname = '';
 
-  constructor(username: string, roomname: string) {
-    this._username = username;
-    this._roomname = roomname;
+  constructor() {
   }
 
-  set username(username: string) {
-    this._username = username;
+  setToken(token: string): void {
+    localStorage.setItem('Token', token);
+    this.token = token;
   }
 
-  get username(): string {
-    return this._username;
+  setUserName(username: string): void {
+    this.username = username;
   }
 
-  set roomname(username: string) {
-    this._roomname = username;
-  }
-
-  get roomname(): string {
-    return this._roomname;
+  setRoomname(room: string): void {
+    this.roomname = room;
   }
 }

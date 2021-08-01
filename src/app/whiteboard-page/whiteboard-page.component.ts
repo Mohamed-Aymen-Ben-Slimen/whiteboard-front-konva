@@ -6,7 +6,7 @@ import {WhiteBoardService} from './services/white-board.service';
 import {AuthService} from '../auth/auth-service/auth.service';
 import {Types} from '../Types.enum';
 import UserModel from '../auth/model/User.model';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-whiteboard-page',
@@ -33,18 +33,17 @@ export class WhiteboardPageComponent implements OnInit {
   currentColor = 'black';
   currentStrokeWidth = 2;
 
-  user: UserModel;
+  user: any;
 
   constructor(
     private shapeService: ShapeService,
     private textNodeService: TextNodeService,
     private whiteBoardService: WhiteBoardService,
     private authService: AuthService,
-    private formBuilder: FormBuilder
   ) {
-    this.user = new UserModel('', '');
     this.authService.getUserObservable().subscribe(
       (user: UserModel) => {
+        console.log(user);
         this.user = user;
       }
     );

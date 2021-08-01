@@ -8,11 +8,14 @@
 
 <br>
 
-<form [formGroup]="formGroup" (ngSubmit)="submit()">
-  <input type="text" placeholder="Username" formControlName="username" name="username" />
+  <button type="submit" class="btn" (click)="joinRoom = !joinRoom">{{joinRoom? "Create Room" : "Join Room"}}</button>
+<form [formGroup]="formGroup">
+  <input type="email" placeholder="Email" formControlName="email"/>
   <br>
-  <input type="text" placeholder="Roomname" formControlName="roomname" name="roomname" />
+  <input type="password" placeholder="Password" formControlName="password"/>
   <br>
-  <button type="submit" class="btn">Create or Join Room</button>
+  <input *ngIf="joinRoom" type="text" placeholder="Room" formControlName="roomname"/>
+  <br>
+  <button type="submit" class="btn" (click)="login(!joinRoom)">{{joinRoom? "Join" : "Create"}}</button>
 </form>
 </div>
