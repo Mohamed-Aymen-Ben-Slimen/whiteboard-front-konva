@@ -169,6 +169,7 @@
   </div>
   </div>
 
+
   <div class="flex-row col-lg-2 col-md-12 col-sm-12">
     <mat-slide-toggle (change)='handleDarkMode()'>Dark Mode</mat-slide-toggle>
     <span *ngIf="!darkModeActive" class="material-icons">
@@ -181,6 +182,8 @@
 
   <div class="flex-row col-lg-12 col-md-12 col-sm-12">
     <span>Room Name: {{user.roomname}}</span>
+    <button mat-raised-button (click)='saveBoard()'>Save</button>
+    <button mat-raised-button (click)='logout()'>Logout</button>
   </div>
 
 

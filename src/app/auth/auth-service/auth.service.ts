@@ -37,4 +37,5 @@ export class AuthService {
   sendComing(data: any): void {
     this.socket.emit(this.eventComing, data);
   }
+
 }

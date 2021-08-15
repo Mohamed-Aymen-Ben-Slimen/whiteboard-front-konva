@@ -6,7 +6,7 @@ import {WhiteBoardService} from './services/white-board.service';
 import {AuthService} from '../auth/auth-service/auth.service';
 import {Types} from '../Types.enum';
 import UserModel from '../auth/model/User.model';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-whiteboard-page',
@@ -40,6 +40,7 @@ export class WhiteboardPageComponent implements OnInit {
     private textNodeService: TextNodeService,
     private whiteBoardService: WhiteBoardService,
     private authService: AuthService,
+    private router: Router
   ) {
     this.authService.getUserObservable().subscribe(
       (user: UserModel) => {
@@ -78,6 +79,10 @@ export class WhiteboardPageComponent implements OnInit {
           this.removeShapeById(data.shapeId);
         }
       });
+  }
+
+  logout(): void {
+    this.router.navigateByUrl('/');
   }
 
   clearSelection(): void {
@@ -294,5 +299,14 @@ export class WhiteboardPageComponent implements OnInit {
   handleDarkMode(): void {
     this.darkModeActive = !this.darkModeActive;
     this.currentColor = 'white';
+  }
+
+  saveBoard(): void {
+    this.whiteBoardService.saveBoard()
+      .subscribe(
+        (data) => {
+          console.log(data);
+        }
+      );
   }
 }
