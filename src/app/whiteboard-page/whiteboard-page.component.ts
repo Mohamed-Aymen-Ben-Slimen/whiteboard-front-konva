@@ -7,6 +7,7 @@ import {AuthService} from '../auth/auth-service/auth.service';
 import {Types} from '../Types.enum';
 import UserModel from '../auth/model/User.model';
 import {Router} from "@angular/router";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-whiteboard-page',
@@ -30,8 +31,13 @@ export class WhiteboardPageComponent implements OnInit {
 
   darkModeActive = false;
 
+  color1 = 'black';
+  color2 = 'white';
   currentColor = 'black';
   currentStrokeWidth = 2;
+
+  selectedColorNumber = 1;
+
 
   user: any;
 
@@ -286,8 +292,8 @@ export class WhiteboardPageComponent implements OnInit {
     return this.shapes.find((s: any) => s._id === id);
   }
 
-  changeColor(target: any): void {
-    this.currentColor = target.style.backgroundColor;
+  changeColor(colorNumber: number): void {
+
   }
 
   changeStrokeWidth(target: any): void {

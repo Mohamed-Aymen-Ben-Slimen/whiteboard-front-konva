@@ -1,15 +1,17 @@
 <div class="login-page">
-<div id="background"></div>
-<p class="title">Collaborative Whiteboard</p>
-
-<p class="subtitle">Share the whiteboard with your friends and increase your productivity</p>
-
-<p class="subtitle">Create a new room or join an existing one</p>
-
+  <div class="container">
+  <div class="titles">
+    <p class="title">Collaborative Whiteboard</p>
+    <p class="subtitle">Share the whiteboard with your friends and increase your productivity</p>
+    <p class="subsubtitle">Create a new room or join an existing one</p>
+  </div>
 <br>
 
-  <button type="submit" class="btn" (click)="joinRoom = !joinRoom">{{joinRoom? "Create Room" : "Join Room"}}</button>
-<form [formGroup]="formGroup">
+    <div class="buttons">
+      <button type="submit" class="btn" [ngClass]="{selected: !joinRoom}" (click)="joinRoom = false">Create Room</button>
+      <button type="submit" class="btn" [ngClass]="{selected: joinRoom}" (click)="joinRoom = true">Join Room</button>
+    </div>
+    <form [formGroup]="formGroup">
   <input type="email" placeholder="Email" formControlName="email"/>
   <br>
   <input type="password" placeholder="Password" formControlName="password"/>
@@ -18,4 +20,5 @@
   <br>
   <button type="submit" class="btn" (click)="login(!joinRoom)">{{joinRoom? "Join" : "Create"}}</button>
 </form>
+  </div>
 </div>

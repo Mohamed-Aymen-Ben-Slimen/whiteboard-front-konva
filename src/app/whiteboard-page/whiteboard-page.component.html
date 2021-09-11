@@ -1,11 +1,61 @@
 <div class="tools-bar flex-row row">
-  <div class="flex-row col-lg-4 col-md-12 col-sm-12">
+  <div class="flex-row col-lg-2 col-md-12 col-sm-12 section">
+    <span class="material-icons first-action">bookmark_add</span>
+    <span class="material-icons first-action">open_in_new</span>
+    <span class="material-icons first-action">exit_to_app</span>
+  </div>
+  <div class="flex-row col-lg-2 col-md-12 col-sm-12 section">
+    <div class="flex-column  w-100">
+      <div class="flex-row justify-content-around m-4">
+        <span class="material-icons action">highlight_alt</span>
+        <span class="material-icons action">crop_3_2</span>
+        <span class="material-icons action">auto_fix_high</span>
+        <span class="material-icons action">colorize</span>
+      </div>
+      <div class="flex-row m-4">
+        <span class="material-icons action" (click)='setSelection("text"); addShape("text")'>format_shapes</span>
+        <span class="material-icons action" (click)='setSelection("line"); addShape("line"); erase = false'>brush</span>
+        <span class="material-icons action">format_color_fill</span>
+        <span class="material-icons action">search</span>
+      </div>
+    </div>
+  </div>
+  <div class="flex-row justify-content-around align-items-center col-lg-1 section">
+    <div class="flex-column">
+    <div class="color"
+         [colorPicker]="color1"
+         (colorPickerChange)="color1=$event; currentColor=color1; selectedColorNumber=1"
+         [style.background]="color1"
+         [ngClass]="{'selected-color': selectedColorNumber===1}"
+         style="height: 40px;
+                    width: 40px; margin: 0 4px;
+                     border-radius: 5px"></div>
+    </div>
+
+    <span class="material-icons">swap_horiz</span>
+
+    <div class="flex-column">
+    <div class="color"
+         [colorPicker]="color2"
+         (colorPickerChange)="color2=$event; currentColor=color2; selectedColorNumber=2"
+         [style.background]="color2"
+         [ngClass]="{'selected-color': selectedColorNumber===2}"
+         style="height: 40px;
+                    width: 40px;
+                    margin: 0 4px;
+                    border-radius: 5px;"></div>
+    </div>
+  </div>
+  <div class="flex-row col-lg-5 col-md-12 col-sm-12">
     <button mat-raised-button [color]='selectedButton["circle"] ? "primary":""' (click)='setSelection("circle"); addShape("circle")'>Circle</button>
     <button mat-raised-button [color]='selectedButton["rectangle"] ? "primary":""' (click)='setSelection("rectangle"); addShape("rectangle")'>Rectangle</button>
-    <button mat-raised-button [color]='selectedButton["line"] ? "primary":""' (click)='setSelection("line"); addShape("line"); erase = false'>Pen</button>
-    <button mat-raised-button [color]='selectedButton["text"] ? "primary":""' (click)='setSelection("text"); addShape("text")'>Text</button>
+    <button mat-raised-button [color]='selectedButton["text"] ? "primary":""' >Text</button>
     <button mat-raised-button [color]='selectedButton["undo"] ? "primary":""' (click)='clearSelection(); setSelection("undo"); undo()'>Undo</button>
     <button mat-raised-button [color]='selectedButton["erase"] ? "primary":""' (click)='clearSelection(); setSelection("erase"); erase = true; clearBoard(true)'>Clear</button>
+
+
+
+
     <mat-form-field appearance="outline" style="width: 66px; padding: 0; margin: 0; margin-bottom: -1.25em">
       <mat-label>Size</mat-label>
       <mat-select [(value)]="currentStrokeWidth">
@@ -16,157 +66,7 @@
     </mat-form-field>
   </div>
   <div class="col-lg-6 col-md-12 col-sm-12">
-  <div class="flex-row">
-      <div id="colorContainer" class="flex-row"  >
-        <table style="display: inline; margin: 0">
-          <tr>
 
-            <td>
-              <div class="color" style="background-color:black;height: 20px;
-                        width: 20px;" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:white;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:red;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:blue;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:green;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:crimson;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:skyblue;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:deepskyblue;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:purple;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:slateblue;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:brown;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:saddlebrown;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:dodgerblue;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:olive;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:forestgreen;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:orange;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:gold;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-
-          </tr>
-
-          <tr>
-            <td>
-              <div class="color" style="background-color:gray;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:darkgray;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:whitesmoke;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:azure;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:pink;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:burlywood;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:coral;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:chocolate;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:firebrick;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:slateblue;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:darkorange;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:darksalmon;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:deeppink;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:violet;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:darkturquoise;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:turquoise;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-            <td>
-              <div class="color" style="background-color:cornflowerblue;height: 20px;
-                        width: 20px" (click)="changeColor($event.target)"></div>
-            </td>
-          </tr>
-        </table>
-        <div class="color" style="background-color:{{currentColor}};height: 40px;
-                        width: 40px; margin: 0 4px" (click)="changeColor($event.target)"></div>
-      </div>
-  </div>
   </div>
 
 
@@ -182,8 +82,10 @@
 
   <div class="flex-row col-lg-12 col-md-12 col-sm-12">
     <span>Room Name: {{user.roomname}}</span>
+    <!--
     <button mat-raised-button (click)='saveBoard()'>Save</button>
     <button mat-raised-button (click)='logout()'>Logout</button>
+    -->
   </div>
 
 

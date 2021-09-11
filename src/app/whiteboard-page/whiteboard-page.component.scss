@@ -3,8 +3,28 @@ button {
 }
 
 .tools-bar {
-  background-color: lightgray;
+  height: 16%;
+  background-color: #3ca839;
   padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: white;
+
+  .section {
+    border-right-width: 0.5px;
+    border-right-color: black;
+    border-right-style: solid;
+    border-left-width: 0.5px;
+    border-left-color: black;
+    border-left-style: solid;
+    height: 100%;
+
+    .action {
+      cursor: pointer;
+    }
+  }
 }
 
 .dark-mode {
@@ -13,4 +33,12 @@ button {
 
 .icon-dark-mode {
 
+}
+
+.first-action {
+  height: 80%;
+}
+
+.selected-color {
+  box-shadow: 0 0 6px 3px #2aabd2;
 }
