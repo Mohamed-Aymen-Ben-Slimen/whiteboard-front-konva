@@ -32,12 +32,6 @@ button {
   position: relative;
 
   .section {
-    border-right-width: 0.5px;
-    border-right-color: black;
-    border-right-style: solid;
-    border-left-width: 0.5px;
-    border-left-color: black;
-    border-left-style: solid;
     height: 100%;
 
     .action {
@@ -99,6 +93,7 @@ button {
     right: 1%;
     top: 50%;
     transform: translateY(-50%);
+    pointer-events: none;
   }
 
 }
