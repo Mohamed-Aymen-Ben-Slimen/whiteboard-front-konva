@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import Konva from 'konva';
 import { ShapeService } from '../shape.service';
 import { TextNodeService } from '../text-node.service';
@@ -6,15 +6,18 @@ import {WhiteBoardService} from './services/white-board.service';
 import {AuthService} from '../auth/auth-service/auth.service';
 import {Types} from '../Types.enum';
 import UserModel from '../auth/model/User.model';
-import {Router} from "@angular/router";
-import {BehaviorSubject} from "rxjs";
+import {Router} from '@angular/router';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'app-whiteboard-page',
   templateUrl: './whiteboard-page.component.html',
   styleUrls: ['./whiteboard-page.component.scss']
 })
-export class WhiteboardPageComponent implements OnInit {
+export class WhiteboardPageComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('whiteboardContainer') whiteboardContainer: ElementRef | undefined;
+
   shapes: any = [];
   stage!: Konva.Stage;
   layer!: Konva.Layer;
@@ -35,6 +38,21 @@ export class WhiteboardPageComponent implements OnInit {
   color2 = 'white';
   currentColor = 'black';
   currentStrokeWidth = 2;
+
+  public fontfamilys = [
+    {title: 'Arial', value: 'Arial, sans-serif'},
+    {title: 'Verdana', value: 'Verdana, sans-serif'},
+    {title: 'Helvetica', value: 'Helvetica, sans-serif'},
+    {title: 'Tahoma', value: 'Tahoma, sans-serif'},
+    {title: 'Trebuchet MS', value: 'Trebuchet MS, sans-serif'},
+    {title: 'Georgia', value: 'Georgia, serif'},
+    {title: 'Garamond', value: 'Garamond, serif'},
+    {title: 'Times New Roman', value: 'Times New Roman'},
+    {title: 'Palatino Linotype', value: 'Palatino Linotype'},
+    {title: 'Courier New', value: 'Courier New'},
+    {title: 'Brush Script MT', value: 'Brush Script MT'},
+  ];
+  currentFont = this.fontfamilys[0].value;
 
   selectedColorNumber = 1;
 
@@ -57,10 +75,15 @@ export class WhiteboardPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+  }
+
+  ngAfterViewInit(): void {
+    const width = this.whiteboardContainer?.nativeElement.offsetWidth;
+    const height = this.whiteboardContainer?.nativeElement.offsetHeight;
+    console.log(this.whiteboardContainer);
+    //  console.log(width, height);
     this.stage = new Konva.Stage({
-      container: 'container',
+      container: 'white-board',
       width,
       height
     });
@@ -69,22 +92,22 @@ export class WhiteboardPageComponent implements OnInit {
     this.addLineListeners();
 
     this.whiteBoardService.listenForClear()
-      .subscribe( () => { this.clearBoard(); } );
+        .subscribe( () => { this.clearBoard(); } );
 
     this.whiteBoardService.listenForDrawing()
-      .subscribe( (data: any) => {
-        if (data.type === Types.NEW) {
-          const newDrawing = JSON.parse( data.boardData );
-          this.addShapeWithAttr(newDrawing.className.toLowerCase(), newDrawing.attrs, data.shapeId);
-        } else if (data.type === Types.UPDATE) {
-          const updatedDrawing = JSON.parse(data.boardData);
-          this.removeShapeById(data.shapeId);
-          this.addShapeWithAttr(updatedDrawing.className.toLowerCase(), updatedDrawing.attrs, data.shapeId);
-          this.layer.batchDraw();
-        } else if (data.type === Types.DELETE) {
-          this.removeShapeById(data.shapeId);
-        }
-      });
+        .subscribe( (data: any) => {
+          if (data.type === Types.NEW) {
+            const newDrawing = JSON.parse( data.boardData );
+            this.addShapeWithAttr(newDrawing.className.toLowerCase(), newDrawing.attrs, data.shapeId);
+          } else if (data.type === Types.UPDATE) {
+            const updatedDrawing = JSON.parse(data.boardData);
+            this.removeShapeById(data.shapeId);
+            this.addShapeWithAttr(updatedDrawing.className.toLowerCase(), updatedDrawing.attrs, data.shapeId);
+            this.layer.batchDraw();
+          } else if (data.type === Types.DELETE) {
+            this.removeShapeById(data.shapeId);
+          }
+        });
   }
 
   logout(): void {

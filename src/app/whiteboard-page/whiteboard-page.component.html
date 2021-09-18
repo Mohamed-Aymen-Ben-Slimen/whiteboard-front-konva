@@ -1,9 +1,11 @@
-<div class="tools-bar flex-row row">
+<div class="flex-column whiteboard-container">
+<div class="tools-bar flex-row justify-content-around align-items-center">
   <div class="flex-row col-lg-2 col-md-12 col-sm-12 section">
     <span class="material-icons first-action">bookmark_add</span>
     <span class="material-icons first-action">open_in_new</span>
     <span class="material-icons first-action">exit_to_app</span>
   </div>
+
   <div class="flex-row col-lg-2 col-md-12 col-sm-12 section">
     <div class="flex-column  w-100">
       <div class="flex-row justify-content-around m-4">
@@ -20,6 +22,39 @@
       </div>
     </div>
   </div>
+
+  <div class="flex-row col-lg-2 col-md-12 col-sm-12 section">
+    <div class="flex-column  w-100">
+      <div class="flex-row justify-content-around m-4">
+        <div class="custom-select">
+          <select [(ngModel)]="currentFont" [ngStyle]="{fontFamily: currentFont}">
+            <option *ngFor="let font of fontfamilys" [value]="font.value" [ngStyle]="{'font-family': font.value}">
+              {{font.title}}
+            </option>
+          </select>
+          <span class="material-icons arrow">arrow_drop_down</span>
+        </div>
+
+        <div class="custom-select">
+          <select [(ngModel)]="currentStrokeWidth">
+            <option *ngFor="let strokeWidth of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [value]="strokeWidth">
+              {{strokeWidth}}
+            </option>
+          </select>
+          <span class="material-icons arrow">arrow_drop_down</span>
+        </div>
+      </div>
+      <div class="flex-row m-4">
+        <span class="material-icons action">format_align_left</span>
+        <span class="material-icons action">format_align_center</span>
+        <span class="material-icons action">format_align_right</span>
+        <span class="material-icons">format_bold</span>
+        <span class="material-icons">format_italic</span>
+        <span class="material-icons">format_underlined</span>
+      </div>
+    </div>
+  </div>
+
   <div class="flex-row justify-content-around align-items-center col-lg-1 section">
     <div class="flex-column">
     <div class="color"
@@ -46,49 +81,31 @@
                     border-radius: 5px;"></div>
     </div>
   </div>
-  <div class="flex-row col-lg-5 col-md-12 col-sm-12">
-    <button mat-raised-button [color]='selectedButton["circle"] ? "primary":""' (click)='setSelection("circle"); addShape("circle")'>Circle</button>
-    <button mat-raised-button [color]='selectedButton["rectangle"] ? "primary":""' (click)='setSelection("rectangle"); addShape("rectangle")'>Rectangle</button>
-    <button mat-raised-button [color]='selectedButton["text"] ? "primary":""' >Text</button>
-    <button mat-raised-button [color]='selectedButton["undo"] ? "primary":""' (click)='clearSelection(); setSelection("undo"); undo()'>Undo</button>
-    <button mat-raised-button [color]='selectedButton["erase"] ? "primary":""' (click)='clearSelection(); setSelection("erase"); erase = true; clearBoard(true)'>Clear</button>
 
-
-
-
-    <mat-form-field appearance="outline" style="width: 66px; padding: 0; margin: 0; margin-bottom: -1.25em">
-      <mat-label>Size</mat-label>
-      <mat-select [(value)]="currentStrokeWidth">
-        <mat-option *ngFor="let strokeWidth of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [value]="strokeWidth">
-          {{strokeWidth}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div class="col-lg-6 col-md-12 col-sm-12">
-
+  <div class="flex-row justify-content-around align-items-center col-lg-2 section">
+    <div class="flex-row justify-content-around align-items-center">
+      <span class="material-icons action" (click)='clearSelection(); setSelection("undo"); undo()'>navigate_before</span>
+      <span class="material-icons action">keyboard_arrow_right</span>
+      <span class="material-icons action" (click)='clearSelection(); setSelection("erase"); erase = true; clearBoard(true)'>clear</span>
+    </div>
+    <div class="flex-row justify-content-between align-items-center">
+      <mat-slide-toggle (change)='handleDarkMode()'></mat-slide-toggle>
+      <div class="flex-column justify-content-center align-items-center">
+        <span class="material-icons action  w-75" (click)="logout()">logout</span>
+        <h4 class="text-center">Logout</h4>
+      </div>
+    </div>
   </div>
 
-
-  <div class="flex-row col-lg-2 col-md-12 col-sm-12">
-    <mat-slide-toggle (change)='handleDarkMode()'>Dark Mode</mat-slide-toggle>
-    <span *ngIf="!darkModeActive" class="material-icons">
-      light_mode
-    </span>
-    <span *ngIf="darkModeActive" class="material-icons">
-      dark_mode
-    </span>
-  </div>
-
-  <div class="flex-row col-lg-12 col-md-12 col-sm-12">
-    <span>Room Name: {{user.roomname}}</span>
-    <!--
-    <button mat-raised-button (click)='saveBoard()'>Save</button>
-    <button mat-raised-button (click)='logout()'>Logout</button>
-    -->
-  </div>
-
-
+  <span id="room-name">
+    Room Name: <span style="font-weight: bold">{{user.roomname}}</span>
+  </span>
 </div>
-<div id="container" [ngClass]="{'dark-mode': darkModeActive}"></div>
+
+  <div class="flex-row justify-content-center align-items-start content" >
+    <app-pages-list [pagesLength]="10"></app-pages-list>
+    <div #whiteboardContainer id="white-board" [ngStyle]="{backgroundColor: darkModeActive ? 'black' : 'white'}"></div>
+  </div>
+
 <app-chat></app-chat>
+</div>

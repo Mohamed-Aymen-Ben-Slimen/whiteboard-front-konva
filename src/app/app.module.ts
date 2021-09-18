@@ -18,28 +18,32 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
 import {ColorPickerModule} from 'ngx-color-picker';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {FormsModule} from "@angular/forms";
+import { PagesListComponent } from './whiteboard-page/pages-list/pages-list.component';
 
 const configSocket: SocketIoConfig = { url: environment.socketServerURL, options: {} };
 
 @NgModule({
   declarations: [
     AppComponent,
-    WhiteboardPageComponent
+    WhiteboardPageComponent,
+    PagesListComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatSlideToggleModule,
-    MatSelectModule,
-    MatIconModule,
-    AuthModule,
-    SocketIoModule.forRoot(configSocket),
-    ChatModuleModule,
-    MatOptionModule,
-    ColorPickerModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatSlideToggleModule,
+        MatSelectModule,
+        MatIconModule,
+        AuthModule,
+        SocketIoModule.forRoot(configSocket),
+        ChatModuleModule,
+        MatOptionModule,
+        ColorPickerModule,
+        FormsModule
+    ],
   providers: [
     ShapeService,
     TextNodeService

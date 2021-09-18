@@ -1,16 +1,35 @@
+.whiteboard-container {
+  background-color: #e1e1e1;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#white-board {
+  margin: 20px;
+  border-radius: 5px;
+  background-color: white;
+  width: 80%;
+  height: 79%;
+  overflow: hidden;
+}
+
+.content {
+  height: 100%;
+}
+
 button {
     margin: 5px;
 }
 
 .tools-bar {
-  height: 16%;
   background-color: #3ca839;
-  padding: 10px;
+  padding: 4px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   color: white;
+  position: relative;
 
   .section {
     border-right-width: 0.5px;
@@ -27,18 +46,66 @@ button {
   }
 }
 
-.dark-mode {
-  background: black;
-}
-
-.icon-dark-mode {
-
-}
-
 .first-action {
   height: 80%;
 }
 
 .selected-color {
   box-shadow: 0 0 6px 3px #2aabd2;
+}
+
+#room-name {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 80%);
+  text-align: center;
+  padding: 10px;
+  background-color: #3ca839;
+  border-radius: 0 0 16px 16px;
+}
+
+.custom-select {
+  position: relative;
+
+  select {
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 0 1em 0 0;
+    margin: 0;
+    width: 100%;
+    cursor: inherit;
+    line-height: inherit;
+    color: white;
+    font-size: 16px;
+    align-items: center;
+
+    &:focus {
+      appearance: none;
+      border: none;
+      outline: none;
+    }
+
+    option {
+      background-color: #3ca839;
+      color: white;
+    }
+  }
+
+  .arrow {
+    position: absolute;
+    right: 1%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+}
+
+app-pages-list {
+  width: 18%;
+  background-color: transparent;
+  overflow-y: scroll;
+  height: 82%;
 }
