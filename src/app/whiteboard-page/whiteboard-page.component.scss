@@ -104,3 +104,17 @@ app-pages-list {
   overflow-y: scroll;
   height: 82%;
 }
+
+.pages-list {
+  overflow-y: scroll;
+  .page {
+    width: 252px;
+    height: 150px;
+    background-color: white;
+    margin: 20px 10px;
+  }
+}
+
+.icon {
+  margin: 0 10px;
+}

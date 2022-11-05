@@ -5,4 +5,9 @@
     background-color: white;
     margin: 20px 10px;
   }
+
+  .page.selected {
+    border: #2aabd2 3px solid;
+    box-shadow: #2aabd2 0 0 6px;
+  }
 }

@@ -1,9 +1,9 @@
 <div class="flex-column whiteboard-container">
 <div class="tools-bar flex-row justify-content-around align-items-center">
   <div class="flex-row col-lg-2 col-md-12 col-sm-12 section">
-    <span class="material-icons first-action">bookmark_add</span>
-    <span class="material-icons first-action">open_in_new</span>
-    <span class="material-icons first-action">exit_to_app</span>
+    <img src="assets/public/images/Save%20(1).svg">
+    <img src="assets/public/images/Open.svg">
+    <img src="assets/public/images/Export.svg">
   </div>
 
   <div class="flex-row col-lg-2 col-md-12 col-sm-12 section">
@@ -12,13 +12,13 @@
         <span class="material-icons action">highlight_alt</span>
         <span class="material-icons action">crop_3_2</span>
         <span class="material-icons action" (click)='setSelection("line"); addShape("line"); erase = true'>auto_fix_high</span>
-        <span class="material-icons action">colorize</span>
+        <img class="icon" src="assets/public/images/Color%20picker.svg"/>
       </div>
       <div class="flex-row m-4">
         <span class="material-icons action" (click)='setSelection("text"); addShape("text")'>format_shapes</span>
-        <span class="material-icons action" (click)='setSelection("line"); addShape("line"); erase = false'>brush</span>
-        <span class="material-icons action">format_color_fill</span>
-        <span class="material-icons action">search</span>
+        <img class="icon" src="assets/public/images/Pen.svg" (click)='setSelection("line"); addShape("line"); erase = false'/>
+        <img class="icon" src="assets/public/images/Color%20filler.svg"/>
+        <img class="icon" src="assets/public/images/Search.svg"/>
       </div>
     </div>
   </div>
@@ -84,15 +84,14 @@
 
   <div class="flex-row justify-content-around align-items-center col-lg-2 section">
     <div class="flex-row justify-content-around align-items-center">
-      <span class="material-icons action" (click)='clearSelection(); setSelection("undo"); undo()'>navigate_before</span>
-      <span class="material-icons action">keyboard_arrow_right</span>
-      <span class="material-icons action" (click)='clearSelection(); setSelection("erase"); erase = true; clearBoard(true)'>clear</span>
+      <img class="icon" src="assets/public/images/Back.svg" (click)='clearSelection(); setSelection("undo"); undo()'/>
+      <img class="icon" src="assets/public/images/Forward.svg" />
+      <img class="icon" src="assets/public/images/Talassa%20XD.svg" (click)='clearSelection(); setSelection("erase"); erase = true; clearBoard(true)'/>
     </div>
     <div class="flex-row justify-content-between align-items-center">
       <mat-slide-toggle (change)='handleDarkMode()'></mat-slide-toggle>
       <div class="flex-column justify-content-center align-items-center">
-        <span class="material-icons action  w-75" (click)="logout()">logout</span>
-        <h4 class="text-center">Logout</h4>
+        <span class="material-icons action  w-75 icon" (click)="logout()">logout</span>
       </div>
     </div>
   </div>
@@ -103,7 +102,7 @@
 </div>
 
   <div class="flex-row justify-content-center align-items-start content" >
-    <app-pages-list [pagesLength]="10"></app-pages-list>
+    <app-pages-list [pagesLength]="10" (selectedPageEvent)="changePage($event)"></app-pages-list>
     <div #whiteboardContainer id="white-board" [ngStyle]="{backgroundColor: darkModeActive ? 'black' : 'white'}"></div>
   </div>
 

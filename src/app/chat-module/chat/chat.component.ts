@@ -61,5 +61,4 @@ export class ChatComponent implements OnInit, OnDestroy {
   handleMaximized(): void {
     this.maximized = !this.maximized;
   }
-
 }

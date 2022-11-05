@@ -66,6 +66,7 @@
     border-top-style: solid;
     border-top-width: 2px;
     border-color: #63b961;
+    z-index: 100;
   }
 
 }
@@ -114,4 +115,8 @@
   color: white;
   padding: 5px;
   border-radius: 100%;
+}
+
+#chatMembers {
+  pointer-events: none;
 }

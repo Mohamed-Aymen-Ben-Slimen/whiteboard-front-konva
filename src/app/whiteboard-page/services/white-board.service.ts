@@ -3,10 +3,10 @@ import {Socket} from 'ngx-socket-io';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Types} from '../../Types.enum';
-import {HttpClient} from "@angular/common/http";
-import {environment} from "../../../environments/environment";
-import {AuthService} from "../../auth/auth-service/auth.service";
-import UserModel from "../../auth/model/User.model";
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+import {AuthService} from '../../auth/auth-service/auth.service';
+import UserModel from '../../auth/model/User.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +35,7 @@ export class WhiteBoardService {
       room,
       boardData: drawing,
       shapeId: drawing._id,
+      page: drawing.page
     });
   }
 
@@ -44,6 +45,7 @@ export class WhiteBoardService {
       room,
       boardData: drawing,
       shapeId: drawing._id,
+      page: drawing.page
     });
   }
 
@@ -53,6 +55,7 @@ export class WhiteBoardService {
       room,
       boardData: drawing,
       shapeId: drawing._id,
+      page: drawing.page
     });
   }
 
@@ -76,4 +79,6 @@ export class WhiteBoardService {
       {roomname: this.user.roomname}
     );
   }
+
+
 }

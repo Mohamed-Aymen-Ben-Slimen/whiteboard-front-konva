@@ -13,14 +13,11 @@
         {{chat?.from}}: {{chat?.msg}}
       </div>
     </div>
-    <div class="chatInput flex-row">
-      <input #input type="text" class="msgBox" id="txtChatMsg"/>
-      <button id="btnSend" class="btn" (click)="sendMsg(input.value); input.value = '';">
-        <span  class="material-icons" >send</span>
-      </button>
-    </div>
   </div>
-
-
-
+  <div class="chatInput flex-row" *ngIf="maximized">
+    <input #input type="text" class="msgBox" id="txtChatMsg"/>
+    <button id="btnSend" class="btn" (click)="sendMsg(input.value); input.value = '';">
+      <span  class="material-icons" >send</span>
+    </button>
+  </div>
 </div>

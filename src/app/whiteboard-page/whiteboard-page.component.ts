@@ -20,6 +20,7 @@ export class WhiteboardPageComponent implements OnInit, AfterViewInit {
 
   shapes: any = [];
   stage!: Konva.Stage;
+  s!: Konva.Stage;
   layer!: Konva.Layer;
   selectedButton: any = {
     circle: false,
@@ -56,6 +57,7 @@ export class WhiteboardPageComponent implements OnInit, AfterViewInit {
 
   selectedColorNumber = 1;
 
+  page = 1;
 
   user: any;
 
@@ -87,6 +89,9 @@ export class WhiteboardPageComponent implements OnInit, AfterViewInit {
       width,
       height
     });
+
+    this.s = this.stage;
+
     this.layer = new Konva.Layer();
     this.stage.add(this.layer);
     this.addLineListeners();
@@ -337,5 +342,46 @@ export class WhiteboardPageComponent implements OnInit, AfterViewInit {
           console.log(data);
         }
       );
+  }
+
+  changePage(page: number): void {
+    this.page = page;
+  }
+
+  changeLayer1(): void {
+    console.log(this.stage);
+    this.stage = new Konva.Stage({
+        container: 'white-board',
+        width: this.whiteboardContainer?.nativeElement.offsetWidth,
+        height: this.whiteboardContainer?.nativeElement.offsetHeight
+      });
+    this.layer = new Konva.Layer();
+    this.stage.add(this.layer);
+    this.addLineListeners();
+
+    this.whiteBoardService.listenForClear()
+      .subscribe( () => { this.clearBoard(); } );
+
+    this.whiteBoardService.listenForDrawing()
+      .subscribe( (data: any) => {
+        if (data.type === Types.NEW) {
+          const newDrawing = JSON.parse( data.boardData );
+          this.addShapeWithAttr(newDrawing.className.toLowerCase(), newDrawing.attrs, data.shapeId);
+        } else if (data.type === Types.UPDATE) {
+          const updatedDrawing = JSON.parse(data.boardData);
+          this.removeShapeById(data.shapeId);
+          this.addShapeWithAttr(updatedDrawing.className.toLowerCase(), updatedDrawing.attrs, data.shapeId);
+          this.layer.batchDraw();
+        } else if (data.type === Types.DELETE) {
+          this.removeShapeById(data.shapeId);
+        }
+      });
+    console.log(this.stage);
+  }
+
+  changeLayer2(): void {
+    console.log(this.stage);
+    this.stage = this.s;
+    console.log(this.stage);
   }
 }
